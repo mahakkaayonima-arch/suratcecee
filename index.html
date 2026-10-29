@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Cheryl ♡</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+ --pink:#ffe8f0;
+ --pink2:#ffd6e5;
+ --rose:#e84483;
+ --dark:#a43b68;
+ --white:#fffafd;
+}
+
+body{
+ font-family:Quicksand,sans-serif;
+ color:var(--dark);
+ background:var(--pink);
+ overflow:hidden;
+}
+
+button{font:inherit;cursor:pointer;border:0}
+
+#app{
+ height:100svh;
+ width:100%;
+ position:relative;
+ overflow:hidden;
+ background:
+ radial-gradient(ellipse at center,#fff8fc 0%,#ffeaf2 48%,#ffd9e8 100%);
+}
+
+#decor{
+ position:absolute;
+ inset:0;
+ pointer-events:none;
+ overflow:hidden;
+}
+
+.flower{
+ position:absolute;
+ color:#ef87ad;
+ opacity:.7;
+ font-size:13px;
+ animation:sway 4s ease-in-out infinite;
+}
+
+.side-line{
+ position:absolute;
+ right:10%;
+ top:0;
+ height:100%;
+ width:1px;
+ background:#eaa1bb;
+ opacity:.8;
+}
+
+.side-line:before,.side-line:after{
+ content:"";
+ position:absolute;
+ left:-3px;
+ width:7px;height:7px;
+ border-radius:50%;
+ background:#e75d93;
+}
+
+.side-line:before{top:10%}
+.side-line:after{bottom:10%}
+
+.tiny-logo{
+ position:absolute;
+ top:15px;
+ left:18px;
+ font:italic 12px 'Playfair Display',serif;
+ color:#d9588a;
+}
+
+.page{
+ position:absolute;
+ inset:0;
+ display:none;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ padding:28px 18px;
+ text-align:center;
+ overflow-y:auto;
+ animation:fade .55s ease;
+}
+
+.page.active{display:flex}
+
+.eyebrow{
+ font-size:9px;
+ letter-spacing:2px;
+ text-transform:uppercase;
+ margin-bottom:12px;
+ color:#bd6586;
+}
+
+h1,h2,h3{
+ font-family:'Playfair Display',serif;
+ font-weight:500;
+}
+
+h1{font-size:clamp(27px,5vw,36px)}
+h2{font-size:clamp(23px,4vw,31px);margin-bottom:10px}
+h3{font-size:22px}
+
+.desc{
+ max-width:300px;
+ font-size:10px;
+ line-height:1.9;
+ color:#a65c7a;
+ margin-top:10px;
+}
+
+.btn{
+ background:linear-gradient(120deg,#ef6da0,#df3678);
+ color:white;
+ padding:10px 20px;
+ border-radius:25px;
+ font-size:10px;
+ font-weight:700;
+ box-shadow:0 5px 13px #d64b8135;
+ margin-top:18px;
+ transition:.25s;
+}
+
+.btn:hover{transform:translateY(-3px)}
+.btn:active{transform:scale(.97)}
+
+.card{
+ background:#fffafd;
+ border:1px solid #f8d5e3;
+ border-radius:8px;
+ box-shadow:0 8px 24px #c65d8720;
+ padding:20px;
+ width:min(285px,85vw);
+}
+
+/* AMPLOP - DIPERBAIKI */
+.envelope{
+ width:145px;
+ height:95px;
+ position:relative;
+ background:#ef9fbd;
+ margin:22px 0 25px;
+ cursor:pointer;
+ box-shadow:0 8px 20px #c94d7a22;
+ overflow:hidden;
+ isolation:isolate;
+}
+
+.envelope .back{
+ position:absolute;
+ inset:0;
+ background:#f7b5ce;
+ z-index:1;
+}
+
+/* Surat tersembunyi sebelum amplop dibuka */
+.envelope .letter{
+ position:absolute;
+ left:8px;
+ right:8px;
+ bottom:5px;
+ height:65px;
+ background:white;
+ padding:12px 5px;
+ font:italic 11px 'Playfair Display',serif;
+ transform:translateY(100%);
+ opacity:0;
+ transition:transform .6s ease,opacity .3s ease;
+ z-index:2;
+}
+
+/* Bagian depan amplop */
+.envelope .front{
+ position:absolute;
+ inset:0;
+ background:#e987ad;
+ clip-path:polygon(0 100%,50% 42%,100% 100%);
+ z-index:3;
+}
+
+/* Penutup atas amplop */
+.envelope .back:after{
+ content:"";
+ position:absolute;
+ inset:0;
+ background:#f7b5ce;
+ clip-path:polygon(0 0,50% 55%,100% 0);
+ transform-origin:top;
+ transition:transform .5s ease;
+ z-index:4;
+}
+
+.envelope .seal{
+ position:absolute;
+ z-index:5;
+ top:43%;
+ left:43%;
+ font-size:17px;
+ transition:opacity .2s ease;
+}
+
+/* Animasi saat amplop dibuka */
+.envelope.open{
+ overflow:visible;
+}
+
+.envelope.open .back:after{
+ transform:rotateX(180deg);
+}
+
+.envelope.open .letter{
+ transform:translateY(-45px);
+ opacity:1;
+}
+
+.envelope.open .seal{
+ opacity:0;
+}
+
+/* KARTU UCAPAN */
+.birthday-card{
+ width:min(215px,75vw);
+ background:white;
+ padding:19px 15px;
+ border-radius:8px;
+ box-shadow:0 8px 25px #c85a8525;
+ border:1px solid #f7d8e5;
+}
+
+.birthday-card .cake-icon{font-size:35px;margin-bottom:8px}
+.birthday-card h2{font-size:22px;color:#df4682}
+.birthday-card p{font-size:9px;line-height:1.8}
+
+/* DIARY */
+.lock-card{
+ width:min(225px,78vw);
+ background:linear-gradient(145deg,#ec4381,#cf2265);
+ color:white;
+ padding:22px 17px;
+ border-radius:9px;
+ box-shadow:0 9px 25px #be34752e;
+}
+
+.lock-card .lock-icon{font-size:30px;margin-bottom:10px}
+.lock-card h3{font-size:20px;margin-bottom:7px}
+.lock-card p{font-size:9px;line-height:1.8}
+
+.lock-card input{
+ width:100%;
+ margin-top:13px;
+ padding:10px;
+ border:0;
+ border-radius:5px;
+ text-align:center;
+ outline:none;
+ font-size:11px;
+}
+
+.lock-card button{
+ background:white;
+ color:#d63272;
+ border-radius:20px;
+ padding:9px 18px;
+ margin-top:10px;
+ font-size:10px;
+ font-weight:700;
+}
+
+#secretLetter{
+ width:min(275px,84vw);
+ background:#fffdf9;
+ text-align:left;
+ padding:21px;
+ font-size:10px;
+ line-height:1.9;
+ box-shadow:0 7px 22px #bd63801b;
+}
+
+#secretLetter h3{
+ text-align:center;
+ font-size:22px;
+ margin-bottom:12px;
+}
+
+#secretLetter p{margin-bottom:10px}
+
+/* FOTO POLAROID */
+.polaroid-wrap{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ margin-top:12px;
+}
+
+.polaroid{
+ width:145px;
+ padding:8px 8px 13px;
+ background:white;
+ box-shadow:0 7px 18px #ac617c2b;
+ transform:rotate(-4deg);
+ transition:.3s;
+}
+
+.polaroid:nth-child(2){transform:rotate(5deg) translateY(7px)}
+.polaroid:nth-child(3){transform:rotate(-2deg) translateY(-3px)}
+
+.polaroid img{
+ width:100%;
+ height:145px;
+ object-fit:cover;
+ display:block;
+ filter:grayscale(100%);
+ background:#f3dbe4;
+}
+
+.photo-placeholder{
+ height:145px;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ flex-direction:column;
+ gap:7px;
+ font-size:28px;
+ background:linear-gradient(140deg,#e6c6d1,#f8eaf0);
+}
+
+.photo-placeholder span{font-size:9px}
+
+.polaroid p{
+ font:italic 10px 'Playfair Display',serif;
+ margin-top:10px;
+}
+
+.photo-nav{display:flex;gap:10px;justify-content:center;margin-top:15px}
+.photo-nav button{
+ background:#fffafd;
+ border:1px solid #f1bdd0;
+ border-radius:20px;
+ padding:8px 14px;
+ color:#b04470;
+ font-size:10px;
+}
+
+/* KUE */
+.cake{
+ position:relative;
+ width:112px;
+ height:105px;
+ margin:20px 0 13px;
+}
+
+.cake .tier{
+ position:absolute;
+ left:50%;
+ transform:translateX(-50%);
+ height:25px;
+ border-radius:5px 5px 8px 8px;
+ background:linear-gradient(90deg,#f16eaa,#ffc1d8,#ee74aa);
+ box-shadow:0 3px 0 #d85a91;
+}
+
+.tier.one{width:110px;bottom:0}
+.tier.two{width:83px;bottom:26px}
+.tier.three{width:56px;bottom:52px}
+
+.tier:before{
+ content:"";
+ position:absolute;
+ top:0;
+ left:0;right:0;
+ height:8px;
+ border-radius:5px;
+ background:#fff2f7;
+}
+
+.candle{
+ position:absolute;
+ left:50%;
+ top:0;
+ transform:translateX(-50%);
+ height:27px;
+ width:6px;
+ background:repeating-linear-gradient(135deg,#fff 0 4px,#e44e88 4px 8px);
+ border-radius:3px;
+}
+
+.flame{
+ position:absolute;
+ width:10px;height:14px;
+ border-radius:50% 50% 50% 50%;
+ background:#ffb72f;
+ top:-14px;left:-2px;
+ box-shadow:0 0 14px #ffb72f88;
+ animation:flicker .5s infinite alternate;
+}
+
+/* WISHES */
+.wishes{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:9px;
+ width:min(300px,86vw);
+ margin-top:12px;
+}
+
+.wish{
+ background:#fffafd;
+ border:1px solid #f8d5e3;
+ padding:13px 8px;
+ border-radius:7px;
+ box-shadow:0 4px 13px #b84c7712;
+ font-size:9px;
+ line-height:1.7;
+}
+
+.wish span{display:block;font-size:21px;margin-bottom:6px}
+
+/* GIFT */
+.gift{
+ font-size:90px;
+ margin:20px 0;
+ cursor:pointer;
+ filter:drop-shadow(0 8px 10px #b84c7720);
+ animation:bob 2s infinite ease-in-out;
+}
+
+#giftResult{
+ display:none;
+ width:min(275px,84vw);
+ padding:20px;
+ background:#fffafd;
+ border-radius:8px;
+ box-shadow:0 8px 24px #b84c7720;
+ font-size:10px;
+ line-height:1.9;
+}
+
+/* MUSIC */
+#musicBtn{
+ position:fixed;
+ bottom:14px;
+ right:15px;
+ z-index:30;
+ background:#fffafd;
+ border:1px solid #f2bfd2;
+ color:#b04470;
+ padding:9px 13px;
+ border-radius:25px;
+ font-size:10px;
+ box-shadow:0 3px 12px #a94c7018;
+}
+
+#progress{
+ position:fixed;
+ bottom:0;
+ left:0;
+ height:3px;
+ width:0;
+ background:#e54885;
+ z-index:40;
+ transition:width .4s;
+}
+
+.floating{
+ position:absolute;
+ pointer-events:none;
+ animation:floatUp 4s linear forwards;
+ z-index:5;
+}
+
+@keyframes fade{
+ from{opacity:0;transform:translateY(8px)}
+ to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes bob{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-9px)}
+}
+
+@keyframes sway{
+ 0%,100%{transform:rotate(-8deg)}
+ 50%{transform:rotate(8deg)}
+}
+
+@keyframes flicker{
+ from{transform:scale(.9) rotate(-5deg)}
+ to{transform:scale(1.1) rotate(5deg)}
+}
+
+@keyframes floatUp{
+ to{transform:translateY(-100vh) rotate(30deg);opacity:0}
+}
+
+@media(max-width:500px){
+ .side-line{right:5%}
+ .polaroid{width:28vw;padding:5px 5px 10px}
+ .polaroid img,.photo-placeholder{height:29vw}
+ .polaroid p{font-size:8px}
+}
+</style>
+</head>
+
+<body>
+<div id="app">
+<div id="decor"></div>
+<div class="side-line"></div>
+<div class="tiny-logo">♡ for Cheryl</div>
+
+<!-- 1. AMPLOP -->
+<section class="page active" id="p1">
+ <p class="eyebrow">a little surprise for you</p>
+ <div class="envelope" id="envelope" onclick="openEnvelope()">
+  <div class="back"></div>
+  <div class="letter">A little letter<br>for Cheryl ♡</div>
+  <div class="front"></div>
+  <div class="seal">💗</div>
+ </div>
+ <h1>Hi, Cheryl!</h1>
+ <p class="desc">Someone has prepared a little surprise just for you.</p>
+ <button class="btn" onclick="openEnvelope()">Open me ♡</button>
+</section>
+
+<!-- 2. BIRTHDAY CARD -->
+<section class="page" id="p2">
+ <div class="birthday-card">
+  <div class="cake-icon">🎂</div>
+  <p class="eyebrow">a special day</p>
+  <h2>Happy Birthday!</h2>
+  <p>To someone who deserves all the happiness in the world.</p>
+  <button class="btn" onclick="go('p3')">Open your gift ♡</button>
+ </div>
+</section>
+
+<!-- 3. SECRET DIARY LOCK -->
+<section class="page" id="p3">
+ <p class="eyebrow">a private little note</p>
+ <h2>My Secret Diary</h2>
+ <p class="desc">Some words are meant for only one person.</p>
+ <div class="lock-card">
+  <div class="lock-icon">🔒</div>
+  <h3>Secret Diary</h3>
+  <p>A little secret, written just for you.</p>
+  <input type="password" id="password" placeholder="Enter password">
+  <button onclick="unlock()">Unlock my diary ♡</button>
+  <p id="error" style="margin-top:10px"></p>
+ </div>
+ <button class="btn" onclick="go('p4')">Continue ♡</button>
+</section>
+
+<!-- 4. SECRET LETTER -->
+<section class="page" id="p4">
+ <p class="eyebrow">from my heart</p>
+ <h2>My Secret Diary</h2>
+ <div id="secretLetter">
+  <h3>Dear Cheryl ♡</h3>
+  <p>Hai, Cheryl. Ada sesuatu yang ingin aku sampaikan, walaupun mungkin susah untuk diucapkan langsung.</p>
+  <p>Aku senang bisa mengenal kamu. Hal-hal sederhana tentang kamu kadang bisa membuat hari biasa terasa lebih spesial.</p>
+  <p>Aku nggak meminta apa-apa sebagai balasan. Aku cuma ingin kamu tahu kalau kehadiran kamu punya arti.</p>
+  <p>Semoga kamu selalu bahagia, tetap jadi diri sendiri, dan dikelilingi orang-orang yang tulus.</p>
+  <p style="text-align:right;font-style:italic">with love, ♡</p>
+ </div>
+ <button class="btn" onclick="go('p5')">Our Memories →</button>
+</section>
+
+<!-- 5. MEMORIES -->
+<section class="page" id="p5">
+ <p class="eyebrow">little moments, forever</p>
+ <h2>Our Memories</h2>
+ <p class="desc">A few moments worth keeping close.</p>
+ <div class="polaroid-wrap" id="gallery">
+  <div class="polaroid">
+   <img src="foto1.jpg" alt="Foto kenangan pertama">
+   <p>little moments</p>
+  </div>
+  <div class="polaroid">
+   <img src="foto2.jpg" alt="Foto kenangan kedua">
+   <p>just us ♡</p>
+  </div>
+  <div class="polaroid">
+   <img src="foto3.jpg" alt="Foto kenangan ketiga">
+   <p>remember this?</p>
+  </div>
+ </div>
+ <p class="desc">A few little moments that mean a lot. ♡</p>
+ <button class="btn" onclick="go('p6')">Next surprise →</button>
+</section>
+
+<!-- 6. CAKE -->
+<section class="page" id="p6">
+ <p class="eyebrow">a little wish for you</p>
+ <h2>A Little Wish</h2>
+ <p class="desc">Close your eyes and make a little wish.</p>
+ <div class="cake">
+  <div class="candle" id="candle"><div class="flame"></div></div>
+  <div class="tier three"></div>
+  <div class="tier two"></div>
+  <div class="tier one"></div>
+ </div>
+ <p class="desc" id="cakeText">One wish, just for you. ✨</p>
+ <button class="btn" onclick="makeWish()">Make a Wish ♡</button>
+ <button class="btn" onclick="go('p7')" style="background:#fff;color:#c43b76">Continue →</button>
+</section>
+
+<!-- 7. FLOATING WISHES -->
+<section class="page" id="p7">
+ <p class="eyebrow">little wishes for you</p>
+ <h2>Floating Wishes</h2>
+ <p class="desc">Things I hope life gives you.</p>
+ <div class="wishes">
+  <div class="wish"><span>🌷</span>May your days be filled with happiness.</div>
+  <div class="wish"><span>🌙</span>May you always find peace.</div>
+  <div class="wish"><span>🧸</span>May you always feel appreciated.</div>
+  <div class="wish"><span>💗</span>May your dreams come true.</div>
+ </div>
+ <p class="desc">I hope life is gentle with you. ♡</p>
+ <button class="btn" onclick="go('p8')">One Last Gift 🎁</button>
+</section>
+
+<!-- 8. GIFT -->
+<section class="page" id="p8">
+ <p class="eyebrow">one last little surprise</p>
+ <h2>Something for You</h2>
+ <p class="desc">There's one last thing waiting for you.</p>
+ <div class="gift" onclick="openGift()">🎁</div>
+ <p class="desc">Tap the box to open it ♡</p>
+ <div id="giftResult">
+  <h3 style="margin-bottom:12px">For Cheryl 💗</h3>
+  <p>Thank you for being you. I hope this little surprise makes you smile, even if only for a moment.</p>
+  <p style="margin-top:10px">You deserve so many beautiful things.</p>
+ </div>
+ <button class="btn" onclick="openGift()">Open your gift ♡</button>
+ <button class="btn" onclick="go('p9')" style="background:#fff;color:#c43b76">Final message →</button>
+</section>
+
+<!-- 9. ENDING -->
+<section class="page" id="p9">
+ <div class="birthday-card">
+  <div style="font-size:36px;margin-bottom:10px">💗</div>
+  <p class="eyebrow">made especially for you</p>
+  <h2>For Cheryl</h2>
+  <p>I hope you keep finding little reasons to smile, beautiful things to look forward to, and people who appreciate the person you are.</p>
+  <p style="margin-top:12px">This little corner of the internet will always be a reminder of this moment. ♡</p>
+  <p style="margin-top:15px;font-weight:700">With love, always.</p>
+ </div>
+ <button class="btn" onclick="go('p1')">Start Again ♡</button>
+</section>
+
+<audio id="music" loop>
+ <source src="lagu.mp3" type="audio/mpeg">
+</audio>
+<button id="musicBtn" onclick="toggleMusic()">♫ Play Music</button>
+<div id="progress"></div>
+</div>
+
+<script>
+const pages = [...document.querySelectorAll('.page')];
+let current = 0;
+let wished = false;
+let envelopeOpened = false;
+
+function go(id){
+ pages.forEach(p=>p.classList.remove('active'));
+ const next = document.getElementById(id);
+ next.classList.add('active');
+ current = pages.indexOf(next);
+ document.getElementById('progress').style.width =
+ ((current/(pages.length-1))*100)+'%';
+}
+
+function openEnvelope(){
+ if(envelopeOpened) return;
+ envelopeOpened = true;
+
+ const env=document.getElementById('envelope');
+ env.classList.add('open');
+
+ document.getElementById('music').play().then(()=>{
+  document.getElementById('musicBtn').textContent='♫ Pause Music';
+ }).catch(()=>{});
+
+ hearts(12);
+ setTimeout(()=>go('p2'),1000);
+}
+
+function unlock(){
+ const pass=document.getElementById('password').value;
+ const err=document.getElementById('error');
+
+ if(pass.toLowerCase()==='291125'){
+  err.textContent='Unlocked! ♡';
+  hearts(12);
+  setTimeout(()=>go('p4'),500);
+ }else{
+  err.textContent='Wrong password, try again ♡';
+ }
+}
+
+function makeWish(){
+ const flame=document.querySelector('.flame');
+ const text=document.getElementById('cakeText');
+
+ if(!wished){
+  flame.style.display='none';
+  text.textContent='Wish made! May your little dreams come true. 💗';
+  hearts(20);
+  wished=true;
+ }else{
+  flame.style.display='block';
+  text.textContent='One wish, just for you. ✨';
+  wished=false;
+ }
+}
+
+function openGift(){
+ const result=document.getElementById('giftResult');
+ const open=result.style.display==='block';
+ result.style.display=open?'none':'block';
+ if(!open)hearts(20);
+}
+
+const music=document.getElementById('music');
+
+function toggleMusic(){
+ const button=document.getElementById('musicBtn');
+
+ if(music.paused){
+  music.play().then(()=>{
+   button.textContent='♫ Pause Music';
+  }).catch(()=>{
+   button.textContent='♫ Play Music';
+  });
+ }else{
+  music.pause();
+  button.textContent='♫ Play Music';
+ }
+}
+
+function hearts(n=1){
+ const decor=document.getElementById('decor');
+ const symbols=['♡','✦','♥','✧','🌸'];
+
+ for(let i=0;i<n;i++){
+  const el=document.createElement('span');
+  el.className='floating';
+  el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+  el.style.left=Math.random()*100+'%';
+  el.style.bottom='-20px';
+  el.style.color=['#e84483','#f08db3','#d75a8c'][Math.floor(Math.random()*3)];
+  el.style.fontSize=(10+Math.random()*13)+'px';
+  el.style.animationDuration=(3+Math.random()*3)+'s';
+  decor.appendChild(el);
+  setTimeout(()=>el.remove(),6500);
+ }
+}
+
+function makeDecor(){
+ const decor=document.getElementById('decor');
+ const symbols=['♡','✧','✦','·','♥','✿'];
+
+ for(let i=0;i<35;i++){
+  const el=document.createElement('span');
+  el.className='flower';
+  el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+  el.style.left=Math.random()*100+'%';
+  el.style.top=Math.random()*100+'%';
+  el.style.animationDelay=Math.random()*4+'s';
+  el.style.fontSize=(7+Math.random()*10)+'px';
+  decor.appendChild(el);
+ }
+}
+
+makeDecor();
+setInterval(()=>{if(!document.hidden)hearts(1)},2200);
+</script>
+</body>
+</html>
